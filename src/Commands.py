@@ -1,6 +1,9 @@
 import math
 from abc import abstractmethod
 import Menu
+from LinearStockPredictionModel import LongTermStockModelVersion1
+
+
 type MenuMenu = Menu.Menu
 
 
@@ -47,4 +50,33 @@ class DisplayMenuCommand(Command):
     
     self.menu.items[user_input].executeCommand()
     
-    
+
+class SaveModelCommand(Command):
+  def __init__(self, model: LongTermStockModelVersion1 | None) -> None:
+    super().__init__()
+    self.model = model
+  
+  def execute(self) -> None:
+    if (self.model == None):
+      print("-----------------------------------")
+      print("WARNING: No Model available to save")
+      print("-----------------------------------")
+      return
+    self.model.saveModel()
+    print("----------------")
+    print("   Model Saved  ")
+    print("----------------")
+
+
+class ExecuteMultipleCommandsCommand(Command):
+  def __init__(self) -> None:
+    super().__init__()
+    self.commands: list[Command] = []
+  
+  def add_c(self, c: Command):
+    self.commands.append(c)
+    return self
+
+  def execute(self):
+    for command in self.commands:
+      command.execute()
