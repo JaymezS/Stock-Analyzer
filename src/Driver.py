@@ -50,10 +50,4 @@ class Driver:
     trainModelMenu.addItem(trainByTicketItem).addItem(returnItem)
     return trainModelMenu
 
-  def composeTicketInputMenu(self):
-    ticketInputMenu = Menu("Ticket Menu", "Input the ticket the model should train on")
-    t = input("Ticket Code (eg. AAPL): ")
-
-    return ticketInputMenu
-
 Driver()
