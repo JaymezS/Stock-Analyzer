@@ -25,11 +25,11 @@ class LongTermStockModelVersion1(nn.Module):
     return x
   
 
-  def saveModel(self):
-    torch.save(self.state_dict(), f"LongTermStockModelVersion1.pt")
+  def saveModel(self, name: str = "default_model_save"):
+    torch.save(self.state_dict(), f"models/{name}.pt")
 
-  def loadModel(self):
-    self.load_state_dict(torch.load("LongTermStockModelVersion1.pt"))
+  def loadModel(self, name: str = "default_model_save"):
+    self.load_state_dict(torch.load(f"models/{name}.pt"))
 
   def eval(self, input):
     with torch.no_grad():

@@ -65,12 +65,13 @@ class DisplayMenuCommand(Command):
     
 
 class SaveModelCommand(Command):
-  def __init__(self, model) -> None:
+  def __init__(self, model: LinearStockPredictionModel.LongTermStockModelVersion1) -> None:
     super().__init__()
     self.model = model
   
   def execute(self) -> None:
-    self.model.saveModel()
+    name: str = input("Input the file name to save the model")
+    self.model.saveModel(name)
     print("----------------")
     print("   Model Saved  ")
     print("----------------")
@@ -82,7 +83,8 @@ class LoadModelCommand(Command):
     self.model: LinearStockPredictionModel.LongTermStockModelVersion1 = model
   
   def execute(self) -> None:
-    self.model.loadModel()
+    name: str = input("Input the name of the model to load (without '.pt')")
+    self.model.loadModel(name)
 
 
 class TrainModelByTicketCommand(Command):
@@ -98,6 +100,15 @@ class TrainModelByTicketCommand(Command):
     y = data[1]
     self.trainer.train(X, y)
 
+
+class TestModelByTicketCommand(Command):
+  def __init__(self, tester) -> None:
+    super().__init__()
+    self.tester = tester
+
+  def execute(self) -> None:
+    t = input("Input the ticket to train on (eg. AAPL): ")
+    self.tester.test(t)
 
 
 class ExecuteMultipleCommandsCommand(Command):
