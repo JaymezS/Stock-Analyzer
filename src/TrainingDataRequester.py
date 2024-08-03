@@ -27,18 +27,18 @@ class TrainingDataRequester():
   def parseData(arr):
     X = []
     y = []
-    if (len(arr) > 200):
-      for i in range(200, len(arr)):
+    if (len(arr) > 110):
+      for i in range(110, len(arr)):
         # create a new set of training data
 
         # create X inputs
         X_instance = []
-        for j in range (i-200, i-100):
+        for j in range (i-110, i-10):
           X_instance.extend(arr[j])
         X.append(X_instance)
 
         # create Y answers
-        init_y = arr[i-99][0]
+        init_y = arr[i-10][0]
         final_y = arr[i][0]
         change_percentage = (final_y - init_y) / init_y
         y_state = 0
