@@ -6,9 +6,9 @@ import numpy
 class ModelTrainer():
   def __init__(self, model: nn.Module):
     self.model = model
-    self.epochs = 100
+    self.epochs = 10000
     self.criterion = nn.CrossEntropyLoss()
-    self.optimizer = torch.optim.Adam(self.model.parameters(), lr = 0.001)
+    self.optimizer = torch.optim.Adam(self.model.parameters(), lr = 0.0001)
     self.losses = []
 
 
