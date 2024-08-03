@@ -5,6 +5,7 @@ import math
 from abc import abstractmethod
 import Menu
 import LinearStockPredictionModel
+from TrainingDataRequester import TrainingDataRequester
 
 
 type MenuMenu = Menu.Menu
@@ -84,6 +85,18 @@ class LoadModelCommand(Command):
     self.model.loadModel()
 
 
+class TrainModelByTicketCommand(Command):
+  def __init__(self, trainer) -> None:
+    super().__init__()
+    self.trainer = trainer
+    
+
+  def execute(self) -> None:
+    t = input("Input the ticket to train on (eg. AAPL): ")
+    data = TrainingDataRequester().getData(t)
+    X = data[0]
+    y = data[1]
+    self.trainer.train(X, y)
 
 
 
