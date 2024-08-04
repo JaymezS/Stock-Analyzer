@@ -5,12 +5,10 @@ from PolygonRequestFormatter import PolygonRequestFormatter
 
 class HundredDayDataRequester():
   @staticmethod
-  def getData(tick: str, endDay: str):
-    yr = int(endDay[0:4])
-    m = int(endDay[5:7])
-    d = int(endDay[8:10])
+  def getData(tick: str):
 
-    endDay = datetime.date(yr, m, d)
+
+    endDay = datetime.date.today() - datetime.timedelta(days=1)
     tdelta = datetime.timedelta(days=200)
 
     startDay = endDay - tdelta

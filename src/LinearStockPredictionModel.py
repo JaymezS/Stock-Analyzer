@@ -9,7 +9,7 @@ import torch.nn.functional as F
 # string buy = 1, strong sell = 5
 class LongTermStockModelVersion1(nn.Module):
 
-  def __init__(self, input_layer: int = 500, l1: int = 100, l2: int = 25, l3: int = 10, out: int = 5) -> None:
+  def __init__(self, input_layer: int = 500, l1: int = 5000, l2: int = 500, l3: int = 100, out: int = 5) -> None:
     super().__init__()
     self.fc1 = nn.Linear(input_layer, l1)
     self.fc2 = nn.Linear(l1, l2)

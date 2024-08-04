@@ -36,7 +36,20 @@ class Driver:
         .add_c(Commands.LoadModelCommand(self.model))
         .add_c(Commands.DisplayMenuCommand(self.mainMenu))
     )
-    self.mainMenu.addItem(trainModelMenuItem).addItem(saveModelItem).addItem(loadModelItem).addItem(exitProgramItem)
+    predictStockItem = MenuItem(
+      "Predict the future of a stock", 
+      Commands.ExecuteMultipleCommandsCommand()
+        .add_c(Commands.PredictStockCommand(self.model))
+        .add_c(Commands.DisplayMenuCommand(self.mainMenu))
+    )
+    
+    (self.mainMenu
+     .addItem(trainModelMenuItem)
+     .addItem(saveModelItem)
+     .addItem(loadModelItem)
+     .addItem(predictStockItem)
+     .addItem(exitProgramItem)
+    )
 
     return self.mainMenu
 

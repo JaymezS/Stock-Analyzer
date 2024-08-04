@@ -1,11 +1,12 @@
 from __future__ import annotations
 
-
+import torch
 import math
 from abc import abstractmethod
 import Menu
 import LinearStockPredictionModel
 from TrainingDataRequester import TrainingDataRequester
+from HundredDayDataRequester import HundredDayDataRequester
 
 
 type MenuMenu = Menu.Menu
@@ -70,7 +71,7 @@ class SaveModelCommand(Command):
     self.model = model
   
   def execute(self) -> None:
-    name: str = input("Input the file name to save the model")
+    name: str = input("Input the file name to save the model: ").strip()
     self.model.saveModel(name)
     print("----------------")
     print("   Model Saved  ")
@@ -83,7 +84,7 @@ class LoadModelCommand(Command):
     self.model: LinearStockPredictionModel.LongTermStockModelVersion1 = model
   
   def execute(self) -> None:
-    name: str = input("Input the name of the model to load (without '.pt')")
+    name: str = input("Input the name of the model to load (without '.pt'): ").strip()
     self.model.loadModel(name)
 
 
@@ -94,11 +95,15 @@ class TrainModelByTicketCommand(Command):
     
 
   def execute(self) -> None:
-    t = input("Input the ticket to train on (eg. AAPL): ")
+    t = input("Input the ticket to train on (eg. AAPL): ").strip()
+    n = int(input("Input the number of training cycle/epochs (default 1000): "))
     data = TrainingDataRequester().getData(t)
     X = data[0]
     y = data[1]
-    self.trainer.train(X, y)
+    if (math.isnan(n)):
+      self.trainer.train(X, y)
+    else:
+      self.trainer.train(X, y, n)
 
 
 class TestModelByTicketCommand(Command):
@@ -107,8 +112,33 @@ class TestModelByTicketCommand(Command):
     self.tester = tester
 
   def execute(self) -> None:
-    t = input("Input the ticket to train on (eg. AAPL): ")
+    t = input("Input the ticket to train on (eg. AAPL): ").strip()
     self.tester.test(t)
+
+
+class PredictStockCommand(Command):
+  def __init__(self, model: LinearStockPredictionModel.LongTermStockModelVersion1) -> None:
+    super().__init__()
+    self.model = model
+
+  def execute(self):
+    t = input("Input the ticket to predict (eg. AAPL): ").strip()
+    data = HundredDayDataRequester().getData(t)
+    tensor = []
+    for i in data:
+      tensor.extend(i)
+    print(len(tensor))
+    tensor = torch.FloatTensor(tensor)
+    ans = self.model.eval(tensor)
+
+
+    res = ["grow by over 20%", "grow by 5~20%", "change by -5~5%", "fall by 5~20%", "fall by more than 20%"]
+    ans = ans.tolist().index(max(ans))
+
+    print(f"Result: The stock's value per share will {res[ans]} in the next 10 days")
+    print("Prediction is made on the stock's previous 100 day data, and may not be accurate")
+
+
 
 
 class ExecuteMultipleCommandsCommand(Command):

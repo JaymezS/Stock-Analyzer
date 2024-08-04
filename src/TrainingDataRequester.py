@@ -43,15 +43,15 @@ class TrainingDataRequester():
         change_percentage = (final_y - init_y) / init_y
         y_state = 0
         if (change_percentage < -0.2):
-          y_state = 5
-        elif (change_percentage < -0.05):
           y_state = 4
-        elif (change_percentage < 0.05):
+        elif (change_percentage < -0.05):
           y_state = 3
-        elif (change_percentage < 0.2):
+        elif (change_percentage < 0.05):
           y_state = 2
-        else:
+        elif (change_percentage < 0.2):
           y_state = 1
+        else:
+          y_state = 0
         y.append(y_state)
 
     X = torch.FloatTensor(X)
