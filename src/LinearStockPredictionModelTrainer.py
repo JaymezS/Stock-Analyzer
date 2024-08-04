@@ -19,3 +19,9 @@ class ModelTrainer():
       self.optimizer.zero_grad()
       loss.backward()
       self.optimizer.step()
+  
+  def SP_train(self):
+    pass
+
+
+

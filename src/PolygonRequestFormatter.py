@@ -7,6 +7,7 @@ load_dotenv()
 POLYGON_API_KEY = os.getenv("POLYGON_API_KEY")
 
 
+
 class PolygonRequestFormatter():
   def __init__(self):
     pass

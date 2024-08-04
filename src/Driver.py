@@ -42,7 +42,7 @@ class Driver:
         .add_c(Commands.PredictStockCommand(self.model))
         .add_c(Commands.DisplayMenuCommand(self.mainMenu))
     )
-    
+
     (self.mainMenu
      .addItem(trainModelMenuItem)
      .addItem(saveModelItem)

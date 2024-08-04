@@ -3,6 +3,7 @@ import datetime
 import torch
 from PolygonRequestFormatter import PolygonRequestFormatter
 
+
 class TrainingDataRequester():
   @staticmethod
   def getData(tick = "AAPL"):
@@ -40,18 +41,15 @@ class TrainingDataRequester():
         # create Y answers
         init_y = arr[i-10][0]
         final_y = arr[i][0]
-        change_percentage = (final_y - init_y) / init_y
+        change_percentage = (final_y - init_y) / init_y * 100
         y_state = 0
-        if (change_percentage < -0.2):
-          y_state = 4
-        elif (change_percentage < -0.05):
-          y_state = 3
-        elif (change_percentage < 0.05):
-          y_state = 2
-        elif (change_percentage < 0.2):
-          y_state = 1
-        else:
+        if (change_percentage <= -100):
           y_state = 0
+        elif (change_percentage >= 100):
+          y_state = 41
+        for i in range (-95, 101, 5):
+          if (change_percentage >= i - 5 and change_percentage <= i):
+            y_state = (i/5) + 20
         y.append(y_state)
 
     X = torch.FloatTensor(X)

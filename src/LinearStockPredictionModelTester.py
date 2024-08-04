@@ -17,6 +17,7 @@ class ModelTester():
 
     total_cases = len(X)
     wrong_cases = 0
+    inaccurate_cases = 0
 
 
     for i in range (total_cases):
@@ -27,7 +28,12 @@ class ModelTester():
 
       if (not guess == answer):
         wrong_cases += 1
+        if (guess + 1 == answer or guess - 1 == answer):
+          inaccurate_cases += 1
     print("________________________________________________________________________________")
     print(f"Out of {total_cases} cases, {wrong_cases} were wrong")
-    print(f"Accuracy: {((total_cases-wrong_cases)/total_cases) * 100}% Accurate for stock: {ticker}")
+    print(f"Complete Accuracy: {((total_cases-wrong_cases)/total_cases) * 100}% Accurate for stock: {ticker}")
+    print(f"Out of {wrong_cases} wrong cases, {inaccurate_cases} are inaccurate (+- 1 level of prediction)")
+    print(f"Discounting for inaccuracies, {(wrong_cases - inaccurate_cases)} out of {total_cases} are completely wrong")
+    print(f"Adjusted Accuracy rate is {(1-(wrong_cases - inaccurate_cases)/total_cases) * 100}%")
     print("____________________________________________________________________________________")
