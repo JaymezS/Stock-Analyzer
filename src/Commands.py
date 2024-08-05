@@ -96,8 +96,11 @@ class TrainModelByTicketCommand(Command):
 
   def execute(self) -> None:
     t = input("Input the ticket to train on (eg. AAPL): ").strip()
-    n = int(input("Input the number of training cycle/epochs (default 1000): "))
-    data = TrainingDataRequester().getData(t)
+    n = int(input("Input the number of training cycle/epochs: "))
+    data = TrainingDataRequester.getData(t)
+    if (data == None):
+      print("cannot train on this stock")
+      return
     X = data[0]
     y = data[1]
     if (math.isnan(n)):
@@ -106,13 +109,23 @@ class TrainModelByTicketCommand(Command):
       self.trainer.train(X, y, n)
 
 
+class SPTrainCommand(Command):
+  def __init__(self, trainer) -> None:
+    super().__init__()
+    self.trainer = trainer
+  
+  def execute(self) -> None:
+    n = int(input("Input the number of training cycle/epochs: "))
+    self.trainer.SP_train(n)
+
+
 class TestModelByTicketCommand(Command):
   def __init__(self, tester) -> None:
     super().__init__()
     self.tester = tester
 
   def execute(self) -> None:
-    t = input("Input the ticket to train on (eg. AAPL): ").strip()
+    t = input("Input the ticket to test on (eg. AAPL): ").strip()
     self.tester.test(t)
 
 

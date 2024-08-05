@@ -2,6 +2,8 @@ import torch.nn as nn
 import torch.nn.functional as F
 import torch
 import numpy
+import json
+from TrainingDataRequester import TrainingDataRequester
 
 class ModelTrainer():
   def __init__(self, model: nn.Module):
@@ -20,8 +22,17 @@ class ModelTrainer():
       loss.backward()
       self.optimizer.step()
   
-  def SP_train(self):
-    pass
+  def SP_train(self, epoch = 10):
+    f = open("assets/data/SPComponents.json")
+    companies = json.load(f)["companies"]
+    for i in range(epoch):
+      for company in companies:
+        d = TrainingDataRequester.getData(company)
+        if d == None:
+          continue
+        X = d[0]
+        y = d[1]
+        self.train(X, y, epoch)
 
 
 

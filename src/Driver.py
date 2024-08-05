@@ -59,6 +59,10 @@ class Driver:
       .add_c(Commands.TrainModelByTicketCommand(self.trainer)) 
       .add_c(Commands.DisplayMenuCommand(trainModelMenu))
     )
+    trainBySPItem = MenuItem("Train by the S&P 500 index", Commands.ExecuteMultipleCommandsCommand()
+      .add_c(Commands.SPTrainCommand(self.trainer))
+      .add_c(Commands.DisplayMenuCommand(trainModelMenu))
+    )
     testByTicketItem = MenuItem("Test By Ticket", Commands.ExecuteMultipleCommandsCommand()
       .add_c(Commands.TestModelByTicketCommand(self.tester))
       .add_c(Commands.DisplayMenuCommand(trainModelMenu))
@@ -66,7 +70,7 @@ class Driver:
     returnItem = MenuItem("Return To Main Menu", Commands.DisplayMenuCommand(self.mainMenu))
 
 
-    trainModelMenu.addItem(trainByTicketItem).addItem(testByTicketItem).addItem(returnItem)
+    trainModelMenu.addItem(trainByTicketItem).addItem(testByTicketItem).addItem(trainBySPItem).addItem(returnItem)
     return trainModelMenu
 
 Driver()

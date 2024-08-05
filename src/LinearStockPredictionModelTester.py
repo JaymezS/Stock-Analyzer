@@ -10,7 +10,9 @@ class ModelTester():
 
   def test(self, ticker: str):
     
-    data = TrainingDataRequester.getData(ticker)
+    data = TrainingDataRequester.getData(ticker) 
+    if data == None:
+      return
     X = data[0]
     y = data[1]
 

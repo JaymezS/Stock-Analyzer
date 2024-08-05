@@ -14,7 +14,10 @@ class TrainingDataRequester():
     startDay = tday-tdl
     data = requests.get(PolygonRequestFormatter.getRequestURL(tick, "day", startDay, endDay))
     data = data.json()
-    results = data["results"]
+    if ("results" in data):
+      results = data["results"]
+    else:
+      return None
 
     res = []
     for i in range(len(results)):
