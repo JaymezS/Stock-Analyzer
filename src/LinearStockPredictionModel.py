@@ -11,18 +11,33 @@ class LongTermStockModelVersion1(nn.Module):
 
   def __init__(self, input_layer: int = 500, out: int = 42) -> None:
     super().__init__()
-    l_n = 500
-    self.fc1 = nn.Linear(input_layer, l_n)
-    self.fcls = []
-    for i in range(10):
-      self.fcls.append(nn.Linear(l_n, l_n))
-    self.out = nn.Linear(l_n, out)
+
+    self.fc1 = nn.Linear(input_layer, 1000)
+    self.fc2 = nn.Linear(1000, 900)
+    self.fc3 = nn.Linear(900, 800)
+    self.fc4 = nn.Linear(800, 700)
+    self.fc5 = nn.Linear(700, 600)
+    self.fc6 = nn.Linear(600, 500)
+    self.fc7 = nn.Linear(500, 400)
+    self.fc8 = nn.Linear(400, 300)
+    self.fc9 = nn.Linear(300, 200)
+    self.fc10 = nn.Linear(200, 100)
+    self.fc11 = nn.Linear(100, 50)
+    self.out = nn.Linear(50, out)
 
   def forward(self, input):
     x = input
     x = F.relu(self.fc1(x))
-    for fcl in self.fcls:
-      x = F.relu(fcl(x))
+    x = F.relu(self.fc2(x))
+    x = F.relu(self.fc3(x))
+    x = F.relu(self.fc4(x))
+    x = F.relu(self.fc5(x))
+    x = F.relu(self.fc6(x))
+    x = F.relu(self.fc7(x))
+    x = F.relu(self.fc8(x))
+    x = F.relu(self.fc9(x))
+    x = F.relu(self.fc10(x))
+    x = F.relu(self.fc11(x))
     x = self.out(x)
     return x
   

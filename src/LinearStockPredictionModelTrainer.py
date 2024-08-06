@@ -9,7 +9,7 @@ class ModelTrainer():
   def __init__(self, model: nn.Module):
     self.model = model
     self.criterion = nn.CrossEntropyLoss()
-    self.optimizer = torch.optim.Adam(self.model.parameters(), lr = 0.0001)
+    self.optimizer = torch.optim.Adam(self.model.parameters(), lr = 0.001)
     self.losses = []
 
 
@@ -22,17 +22,23 @@ class ModelTrainer():
       loss.backward()
       self.optimizer.step()
   
-  def SP_train(self, epoch = 10):
+  def SP_train(self, epoch = 1):
     f = open("assets/data/SPComponents.json")
     companies = json.load(f)["companies"]
-    for i in range(epoch):
-      for company in companies:
-        d = TrainingDataRequester.getData(company)
-        if d == None:
-          continue
-        X = d[0]
-        y = d[1]
-        self.train(X, y, epoch)
+    f.close()
+    X = []
+    y = []
+    for company in companies:
+      d = TrainingDataRequester.getData(company)
+      if d == None:
+        continue
+      Xc = d[0].tolist()
+      yc = d[1].tolist()
+      X.extend(Xc)
+      y.extend(yc)
+    X = torch.FloatTensor(X)
+    y = torch.LongTensor(y)
+    self.train(X, y, epoch)
 
 
 
